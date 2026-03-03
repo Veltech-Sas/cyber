@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8">
   <title data-slot="page-title">Politique de confidentialité | CYBER© IA</title>
-  <meta content="Découvrez comment nous protégeons vos données personnelles. Politique de confidentialité, cookies et exercice de vos droits." name="description">
+  <meta content="Découvrez comment nous protégeons vos données personnelles. Politique de confidentialité, cookies et exercice de vos droits." name="description" data-slot="privacy-meta-description">
   <meta content="Politique de confidentialité | CYBER© IA" property="og:title" data-slot="og-title">
   <meta content="Consultez la politique de confidentialité du site CYBER© IA." property="og:description" data-slot="og-description">
-  <meta content="Politique de confidentialité | CYBER© IA" property="twitter:title">
-  <meta content="Consultez la politique de confidentialité du site CYBER© IA." property="twitter:description">
+  <meta content="Politique de confidentialité | CYBER© IA" property="twitter:title" data-slot="privacy-twitter-title">
+  <meta content="Consultez la politique de confidentialité du site CYBER© IA." property="twitter:description" data-slot="privacy-twitter-description">
   <meta property="og:type" content="website">
   <meta content="../images/og-image.png" property="og:image" data-slot="og-image">
   <meta content="summary_large_image" name="twitter:card">
@@ -45,7 +45,7 @@
       <div class="container w-container">
         <div class="navigation-wrapper">
           <div class="logo-wrapper">
-            <a href="../index.html" class="logo-link w-inline-block"><img src="../images/LogoIpsum-3.svg" alt="" class="logo"></a>
+            <a href="../index.html" class="logo-link w-inline-block"><img src="../images/LogoIpsum-3.svg" alt="" class="logo" data-slot="nav-logo"></a>
           </div>
           <div data-w-id="59179e18-fd5c-6a50-6bf3-3179790adf97" class="navigation-action">
             <div class="buttons-wrapper">
@@ -125,8 +125,8 @@
     <div class="w-layout-blockcontainer container w-container">
       <div class="w-layout-grid grid-2 footer-top">
         <div id="w-node-_72f93d0d-4351-8d13-00b0-78e19a623034-9a623031" class="slogan-footer">
-          <div class="slogan-title">Slogan, <span class="span-light">ici</span>.</div>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.</p>
+          <div class="slogan-title" data-slot="footer-slogan">Slogan, <span class="span-light">ici</span>.</div>
+          <p data-slot="footer-slogan-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.</p>
         </div>
         <div id="w-node-bbc1678c-d8dc-e96d-2e25-52bc1ad4e2c8-9a623031" class="card newsletter">
           <div class="head-newsletter">
@@ -152,11 +152,11 @@
       <div class="w-layout-grid grid-footer">
         <a id="w-node-_72f93d0d-4351-8d13-00b0-78e19a62304f-9a623031" data-w-id="72f93d0d-4351-8d13-00b0-78e19a62304f" href="../demarrer.html" class="card whats-app w-inline-block">
           <div class="cta-footer-title">
-            <div>Démarrer ?</div>
+            <div data-slot="footer-cta-start-title">Démarrer ?</div>
           </div>
-          <p>Envoyez facilement une demande de devis en ligne !</p>
+          <p data-slot="footer-cta-start-desc">Envoyez facilement une demande de devis en ligne !</p>
           <div class="button-secondary small">
-            <div>Devis en ligne</div>
+            <div data-slot="footer-cta-start-button">Devis en ligne</div>
           </div>
           <div class="cta-footer-overlay">
             <div class="text-arrow-wrapper">
@@ -184,12 +184,12 @@
       <div class="divider-footer"></div>
       <div class="footer-bottom">
         <div class="logo-wrapper">
-          <a href="../index.html" class="logo-link w-inline-block"><img src="../images/LogoIpsum-3.svg" alt="" class="logo"></a>
+          <a href="../index.html" class="logo-link w-inline-block"><img src="../images/LogoIpsum-3.svg" alt="" class="logo" data-slot="footer-logo"></a>
         </div>
         <div class="copyright-wrapper">
           <div class="copyright-text">Copyright ©</div>
           <div id="year" class="copyright-text">2026</div>
-          <div class="copyright-text">CYBER IA</div>
+          <div class="copyright-text" data-slot="footer-copyright-name">CYBER IA</div>
           <div class="copyright-text">| Tous droits réservés.</div>
           <div class="js-year w-embed w-script">
             <script>
@@ -198,24 +198,24 @@
           </div>
         </div>
         <div class="social-wrapper">
-          <a href="https://www.instagram.com/" target="_blank" class="social-link w-inline-block">
+          <a href="https://www.instagram.com/" target="_blank" class="social-link w-inline-block" data-slot="social-instagram">
             <div class="w-embed"><svg width="22" height="22" viewbox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                 <path d="M11 0H5C3.67392 0 2.40215 0.526784 1.46447 1.46447C0.526784 2.40215 0 3.67392 0 5L0 11C0 12.3261 0.526784 13.5979 1.46447 14.5355C2.40215 15.4732 3.67392 16 5 16H11C12.3261 16 13.5979 15.4732 14.5355 14.5355C15.4732 13.5979 16 12.3261 16 11V5C16 3.67392 15.4732 2.40215 14.5355 1.46447C13.5979 0.526784 12.3261 0 11 0ZM14.5 11C14.5 12.93 12.93 14.5 11 14.5H5C3.07 14.5 1.5 12.93 1.5 11V5C1.5 3.07 3.07 1.5 5 1.5H11C12.93 1.5 14.5 3.07 14.5 5V11Z"></path>
                 <path d="M8 4C6.93913 4 5.92172 4.42143 5.17157 5.17157C4.42143 5.92172 4 6.93913 4 8C4 9.06087 4.42143 10.0783 5.17157 10.8284C5.92172 11.5786 6.93913 12 8 12C9.06087 12 10.0783 11.5786 10.8284 10.8284C11.5786 10.0783 12 9.06087 12 8C12 6.93913 11.5786 5.92172 10.8284 5.17157C10.0783 4.42143 9.06087 4 8 4ZM8 10.5C7.3372 10.4992 6.70178 10.2356 6.23311 9.76689C5.76444 9.29822 5.50079 8.6628 5.5 8C5.5 6.621 6.622 5.5 8 5.5C9.378 5.5 10.5 6.621 10.5 8C10.5 9.378 9.378 10.5 8 10.5Z"></path>
                 <path d="M12.3 4.23299C12.5944 4.23299 12.833 3.99436 12.833 3.69999C12.833 3.40562 12.5944 3.16699 12.3 3.16699C12.0056 3.16699 11.767 3.40562 11.767 3.69999C11.767 3.99436 12.0056 4.23299 12.3 4.23299Z"></path>
               </svg></div>
           </a>
-          <a href="https://fr.linkedin.com/company/" target="_blank" class="social-link w-inline-block">
+          <a href="https://fr.linkedin.com/company/" target="_blank" class="social-link w-inline-block" data-slot="social-linkedin">
             <div class="w-embed"><svg width="22" height="22" viewbox="0 0 16 15" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                 <path d="M0 1.85859C0 1.31985 0.180185 0.87541 0.540541 0.525253C0.900896 0.175079 1.36937 0 1.94595 0C2.51223 0 2.97039 0.17238 3.32046 0.517172C3.68082 0.872727 3.861 1.33602 3.861 1.90707C3.861 2.42424 3.68598 2.85521 3.33591 3.2C2.97555 3.55556 2.50193 3.73333 1.91506 3.73333C1.34877 3.73333 0.875166 3.55556 0.525097 3.2C0.175027 2.84444 0 2.3973 0 1.85859ZM0.200772 16V5.20404H3.62934V16H0.200772ZM5.52896 16H8.95753V9.97172C8.95753 9.5946 8.99872 9.30369 9.08108 9.09899C9.22522 8.73266 9.44402 8.42289 9.73745 8.1697C10.0309 7.91649 10.399 7.7899 10.8417 7.7899C11.9949 7.7899 12.5714 8.60336 12.5714 10.2303V16H16V9.8101C16 8.21548 15.6396 7.00606 14.9189 6.18182C14.1982 5.35758 13.2458 4.94545 12.0618 4.94545C10.7336 4.94545 9.69884 5.54343 8.95753 6.73939V6.77172H8.94208L8.95753 6.73939V5.20404H5.52896C5.54954 5.54882 5.55985 6.62086 5.55985 8.4202C5.55985 10.2195 5.54954 12.7461 5.52896 16Z"></path>
               </svg></div>
           </a>
-          <a href="https://x.com/" target="_blank" class="social-link w-inline-block">
+          <a href="https://x.com/" target="_blank" class="social-link w-inline-block" data-slot="social-twitter">
             <div class="w-embed"><svg width="22" height="21" viewbox="0 0 16 15" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                 <path d="M9.625 6.3L15.5 0H14L8.95 5.4L5 0H0L6.15 8.4L0 15H1.5L6.825 9.3L11 15H16L9.625 6.3ZM2.225 1H4.225L13.75 14H11.75L2.225 1Z"></path>
               </svg></div>
           </a>
-          <a href="https://www.facebook.com/" target="_blank" class="social-link w-inline-block">
+          <a href="https://www.facebook.com/" target="_blank" class="social-link w-inline-block" data-slot="social-facebook">
             <div class="w-embed"><svg width="22" height="22" viewbox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                 <path d="M16 8C16 3.58172 12.4183 0 8 0C3.58172 0 0 3.58172 0 8C0 11.993 2.92548 15.3027 6.75 15.9028V10.3125H4.71875V8H6.75V6.2375C6.75 4.2325 7.94435 3.125 9.77171 3.125C10.647 3.125 11.5625 3.28125 11.5625 3.28125V5.25H10.5537C9.55992 5.25 9.25 5.86667 9.25 6.49933V8H11.4688L11.1141 10.3125H9.25V15.9028C13.0745 15.3027 16 11.993 16 8Z"></path>
               </svg></div>
