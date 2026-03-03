@@ -100,20 +100,20 @@
         <div class="js-counter w-embed w-script">
           <script>
 (function() {
+  const fmt = n => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
   const animateNumber = (element, target, duration) => {
     let startTime;
-    const initialNumber = 0;
     const easingFunction = t => 1 - Math.pow(1 - t, 4);
     const animate = time => {
       if (!startTime) startTime = time;
       const elapsedTime = time - startTime;
       const t = Math.min(elapsedTime / duration, 1);
-      const newValue = initialNumber + (target - initialNumber) * easingFunction(t);
-      element.textContent = Math.round(newValue);
+      const newValue = Math.round(target * easingFunction(t));
+      element.textContent = fmt(newValue);
       if (elapsedTime < duration) {
         requestAnimationFrame(animate);
       } else {
-        element.textContent = target;
+        element.textContent = fmt(target);
       }
     };
     requestAnimationFrame(animate);
@@ -122,7 +122,7 @@
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         const el = entry.target;
-        const finalNumber = parseInt(el.textContent, 10);
+        const finalNumber = parseInt(el.getAttribute('data-target'), 10) || 0;
         const animDuration = parseInt(el.getAttribute('duration'), 10) || 2000;
         animateNumber(el, finalNumber, animDuration);
         observer.unobserve(el);

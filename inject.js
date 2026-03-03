@@ -71,6 +71,9 @@ function createClientRepo(slug) {
     } else {
       execSync(`gh repo clone ${fullRepo} ${clientDir}`, { stdio: 'pipe' });
     }
+    // Recopier les fichiers template pour intégrer les mises à jour (scripts, CSS, etc.)
+    copyTemplate(TEMPLATE_DIR, clientDir);
+    console.log('   ✓ Template synchronisé');
   } else {
     console.log('   ✦ Création du nouveau repo...');
     if (fs.existsSync(clientDir)) fs.rmSync(clientDir, { recursive: true });
@@ -87,7 +90,7 @@ function createClientRepo(slug) {
 }
 
 function copyTemplate(src, dest) {
-  const exclude = ['.git', 'node_modules', 'inject.js', 'package.json', 'package-lock.json'];
+  const exclude = ['.git', '.vercel', 'node_modules', 'inject.js', 'package.json', 'package-lock.json'];
   const entries = fs.readdirSync(src, { withFileTypes: true });
   for (const entry of entries) {
     if (exclude.includes(entry.name)) continue;
@@ -122,7 +125,15 @@ function replaceHref(tag, url) {
 
 // ─── Couleur primaire ─────────────────────────────────────────────────────────
 
+function hexToRgb(hex) {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return { r, g, b };
+}
+
 function injectBrandColor(workDir, color) {
+  // CSS : remplacer la variable --_colors---primary
   const cssPath = path.join(workDir, CSS_FILE);
   if (!fs.existsSync(cssPath)) {
     console.warn(`⚠️  CSS manquant: ${CSS_FILE}`);
@@ -136,6 +147,19 @@ function injectBrandColor(workDir, color) {
     console.log(`🎨 Couleur primaire: ${color}`);
   } else {
     console.warn('⚠️  Variable --_colors---primary non trouvée dans le CSS');
+  }
+
+  // JS : remplacer les placeholders RGB dans les animations Webflow
+  const jsPath = path.join(workDir, 'js/cyber-ia-v2.js');
+  if (fs.existsSync(jsPath)) {
+    let js = fs.readFileSync(jsPath, 'utf-8');
+    const { r, g, b } = hexToRgb(color);
+    const beforeJs = js;
+    js = js.replace(/rValue:BRAND_R,bValue:BRAND_B,gValue:BRAND_G/, `rValue:${r},bValue:${b},gValue:${g}`);
+    if (js !== beforeJs) {
+      fs.writeFileSync(jsPath, js, 'utf-8');
+      console.log(`🎨 RGB animations: rgb(${r},${g},${b})`);
+    }
   }
 }
 
@@ -193,6 +217,13 @@ function injectAllSlots(html, content, slotTypes) {
     }
     if (type === 'phone' && tag.toLowerCase() === 'a') {
       return `${replaceHref(`<${tag} ${attrs}>`, `tel:${v.replace(/\s/g, '')}`)}${v}</${tag}>`;
+    }
+    // Slots compteur : clé contenant "-number" → data-target + textContent "0"
+    if (slot.includes('-number')) {
+      const num = parseInt(v.replace(/\s/g, ''), 10) || 0;
+      let newAttrs = attrs.replace(/data-target="[^"]*"/, `data-target="${num}"`);
+      if (!newAttrs.includes('data-target=')) newAttrs += ` data-target="${num}"`;
+      return `<${tag} ${newAttrs}>0</${tag}>`;
     }
     return `<${tag} ${attrs}>${v}</${tag}>`;
   });
