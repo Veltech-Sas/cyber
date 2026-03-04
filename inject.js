@@ -21,6 +21,7 @@ const SUPABASE_URL = process.env.SUPABASE_URL || 'https://odtvadaznmdowtaoknid.s
 const SUPABASE_KEY = process.env.SUPABASE_SERVICE_KEY;
 
 const ORG = 'Veltech-Sas';
+const VERCEL_SCOPE = 'veltech-sas-projects';
 const TEMPLATE_DIR = path.resolve(__dirname);
 const WORK_DIR = path.join(os.homedir(), 'cyber-clients');
 
@@ -393,15 +394,31 @@ async function main() {
     else { console.error(`   ❌ Git: ${err.message}`); process.exit(1); }
   }
 
-  // 8. Supabase
-  const repoUrl = `https://github.com/${ORG}/client-${slug}`;
+  // 8. Vercel deploy
+  console.log('\n🚀 Déploiement Vercel...');
+  const repoName = `client-${slug}`;
+  let vercelUrl = `https://${repoName}.vercel.app`;
+  try {
+    const out = execSync(
+      `npx vercel --yes --scope ${VERCEL_SCOPE} --prod 2>&1`,
+      { cwd: workDir, stdio: 'pipe', timeout: 120000 }
+    ).toString();
+    const aliasMatch = out.match(/Aliased:\s+(https:\/\/[^\s]+)/);
+    if (aliasMatch) vercelUrl = aliasMatch[1];
+    console.log(`   ✓ Vercel: ${vercelUrl}`);
+  } catch (err) {
+    console.warn(`   ⚠️  Vercel: ${err.message.split('\n')[0]}`);
+  }
+
+  // 9. Supabase
+  const repoUrl = `https://github.com/${ORG}/${repoName}`;
   const { error } = await supabase.from('site_content')
-    .update({ status: 'deployed', github_repo: repoUrl, last_deployed_at: new Date().toISOString() })
+    .update({ status: 'deployed', deployed_url: vercelUrl, github_repo: repoUrl, last_deployed_at: new Date().toISOString() })
     .eq('id', sc.id);
   if (error) console.warn(`⚠️  Supabase: ${error.message}`);
   else console.log('   ✓ Supabase: deployed');
 
-  console.log(`\n🎉 Terminé !\n   Repo: ${repoUrl}\n`);
+  console.log(`\n🎉 Terminé !\n   Repo: ${repoUrl}\n   Live: ${vercelUrl}\n`);
 }
 
 main().catch(err => { console.error(`❌ ${err.message}`); process.exit(1); });
