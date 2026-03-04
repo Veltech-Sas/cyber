@@ -11,6 +11,7 @@
  */
 
 const { createClient } = require('@supabase/supabase-js');
+const sharp = require('sharp');
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
@@ -190,6 +191,40 @@ function generateDefaultLogo(workDir, content) {
   }
 }
 
+// ─── OG Image ────────────────────────────────────────────────────────────────
+
+const OG_TEMPLATE_PATH = path.join(__dirname, 'images', 'og-template.svg');
+
+function stripHtmlTags(str) {
+  return str.replace(/<[^>]*>/g, '').trim();
+}
+
+async function generateOgImage(content, workDir) {
+  if (!fs.existsSync(OG_TEMPLATE_PATH)) {
+    console.warn('⚠️  images/og-template.svg manquant');
+    return;
+  }
+
+  const brandColor = content['brand-color'] || '#181818';
+  const logo = content['footer-copyright-name'] || '';
+  const title = stripHtmlTags(content['hero-title'] || '');
+  const subtitle = stripHtmlTags(content['hero-subtitle'] || '');
+
+  let svg = fs.readFileSync(OG_TEMPLATE_PATH, 'utf-8');
+  svg = svg.replace('BRAND_COLOR', brandColor);
+  svg = svg.replace('>LOGO<', `>${logo}<`);
+  svg = svg.replace('>TITLE<', `>${title}<`);
+  svg = svg.replace('>SUBTITLE<', `>${subtitle}<`);
+
+  const outPath = path.join(workDir, 'images', 'og-image.png');
+  await sharp(Buffer.from(svg)).png().toFile(outPath);
+  console.log(`🖼️  OG image: images/og-image.png`);
+
+  if (!content['og-image']) {
+    content['og-image'] = 'images/og-image.png';
+  }
+}
+
 // ─── Injection HTML ───────────────────────────────────────────────────────────
 
 function injectAllSlots(html, content, slotTypes) {
@@ -301,7 +336,12 @@ async function main() {
     generateDefaultLogo(workDir, content);
   }
 
-  // 5. Types de slots
+  // 5. OG image
+  if (!dryRun) {
+    await generateOgImage(content, workDir);
+  }
+
+  // 6. Types de slots
   const slotTypes = await fetchSlotTypes(supabase);
 
   // 6. Injection HTML

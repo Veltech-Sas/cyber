@@ -1,0 +1,18 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fond brand-color -->
+  <rect width="1200" height="630" fill="BRAND_COLOR"/>
+  <!-- Dégradé sombre bas → haut -->
+  <defs>
+    <linearGradient id="overlay" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#overlay)"/>
+  <!-- Logo (nom entreprise) -->
+  <text x="600" y="80" text-anchor="middle" dominant-baseline="middle" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="700" fill="#FFFFFF">LOGO</text>
+  <!-- Titre -->
+  <text x="600" y="380" text-anchor="middle" dominant-baseline="middle" font-family="Arial, Helvetica, sans-serif" font-size="48" font-weight="700" fill="#FFFFFF" width="600">TITLE</text>
+  <!-- Sous-titre -->
+  <text x="600" y="450" text-anchor="middle" dominant-baseline="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#FFFFFF" fill-opacity="0.7">SUBTITLE</text>
+</svg>
