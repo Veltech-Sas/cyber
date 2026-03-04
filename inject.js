@@ -167,7 +167,7 @@ function injectBrandColor(workDir, color) {
 
 // ─── Logo par défaut ─────────────────────────────────────────────────────────
 
-const LOGO_SLOTS = ['nav-logo', 'footer-logo', 'cta-logo'];
+const LOGO_SLOTS = ['nav-logo', 'footer-logo', 'cta-logo', 'service-1-logo', 'service-2-logo', 'service-3-logo'];
 const LOGO_DEFAULT_PATH = path.join(__dirname, 'images', 'logo-default.svg');
 
 function generateDefaultLogo(workDir, content) {
