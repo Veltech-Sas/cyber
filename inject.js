@@ -194,9 +194,21 @@ function generateDefaultLogo(workDir, content) {
 // ─── OG Image ────────────────────────────────────────────────────────────────
 
 const OG_TEMPLATE_PATH = path.join(__dirname, 'images', 'og-template.svg');
+const HERO_DEFAULT = 'images/Model-Hero-Image-p-1080.jpg';
 
 function stripHtmlTags(str) {
   return str.replace(/<[^>]*>/g, '').trim();
+}
+
+function resolveHeroImage(workDir, content) {
+  // Si le client a une hero-image injectée, l'utiliser
+  if (content['hero-image'] && fs.existsSync(path.join(workDir, content['hero-image']))) {
+    return path.join(workDir, content['hero-image']);
+  }
+  // Sinon, image hero par défaut du template
+  const defaultPath = path.join(workDir, HERO_DEFAULT);
+  if (fs.existsSync(defaultPath)) return defaultPath;
+  return null;
 }
 
 async function generateOgImage(content, workDir) {
@@ -205,16 +217,26 @@ async function generateOgImage(content, workDir) {
     return;
   }
 
+  const heroPath = resolveHeroImage(workDir, content);
+  if (!heroPath) {
+    console.warn('⚠️  Aucune hero image trouvée, OG image ignorée');
+    return;
+  }
+
+  // Lire le hero et convertir en base64 data URI
+  const heroBuffer = fs.readFileSync(heroPath);
+  const ext = path.extname(heroPath).slice(1).replace('jpg', 'jpeg');
+  const heroDataUri = `data:image/${ext};base64,${heroBuffer.toString('base64')}`;
+
   const brandColor = content['brand-color'] || '#181818';
   const logo = content['footer-copyright-name'] || '';
   const title = stripHtmlTags(content['hero-title'] || '');
-  const subtitle = stripHtmlTags(content['hero-subtitle'] || '');
 
   let svg = fs.readFileSync(OG_TEMPLATE_PATH, 'utf-8');
-  svg = svg.replace('BRAND_COLOR', brandColor);
+  svg = svg.replace('HERO_DATA_URI', heroDataUri);
+  svg = svg.replaceAll('BRAND_COLOR', brandColor);
   svg = svg.replace('>LOGO<', `>${logo}<`);
   svg = svg.replace('>TITLE<', `>${title}<`);
-  svg = svg.replace('>SUBTITLE<', `>${subtitle}<`);
 
   const outPath = path.join(workDir, 'images', 'og-image.png');
   await sharp(Buffer.from(svg)).png().toFile(outPath);

@@ -1,18 +1,19 @@
-<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Fond brand-color -->
-  <rect width="1200" height="630" fill="BRAND_COLOR"/>
-  <!-- Dégradé sombre bas → haut -->
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <!-- Hero image (cover) -->
+  <image href="HERO_DATA_URI" x="0" y="0" width="1200" height="630" preserveAspectRatio="xMidYMid slice"/>
+  <!-- Overlay blanc semi-transparent (bas → haut) -->
   <defs>
     <linearGradient id="overlay" x1="0" y1="1" x2="0" y2="0">
-      <stop offset="0%" stop-color="#000000" stop-opacity="0.7"/>
-      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.3"/>
     </linearGradient>
   </defs>
   <rect width="1200" height="630" fill="url(#overlay)"/>
   <!-- Logo (nom entreprise) -->
-  <text x="600" y="80" text-anchor="middle" dominant-baseline="middle" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="700" fill="#FFFFFF">LOGO</text>
+  <text x="600" y="100" text-anchor="middle" dominant-baseline="middle" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="600" fill="BRAND_COLOR">LOGO</text>
   <!-- Titre -->
-  <text x="600" y="380" text-anchor="middle" dominant-baseline="middle" font-family="Arial, Helvetica, sans-serif" font-size="48" font-weight="700" fill="#FFFFFF" width="600">TITLE</text>
-  <!-- Sous-titre -->
-  <text x="600" y="450" text-anchor="middle" dominant-baseline="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#FFFFFF" fill-opacity="0.7">SUBTITLE</text>
+  <text x="600" y="330" text-anchor="middle" dominant-baseline="middle" font-family="Arial, Helvetica, sans-serif" font-size="44" font-weight="700" fill="#181818">TITLE</text>
+  <!-- Bouton CTA -->
+  <rect x="475" y="455" width="250" height="50" rx="8" fill="BRAND_COLOR"/>
+  <text x="600" y="480" text-anchor="middle" dominant-baseline="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="600" fill="#FFFFFF">Devis en ligne</text>
 </svg>
