@@ -30,7 +30,7 @@ const HTML_FILES = [
 
 const CSS_FILE = 'css/cyber-ia-v2.css';
 
-const IMAGE_SLOT_TYPES = ['image', 'icon'];
+const IMAGE_SLOT_TYPES = ['image'];
 const LINK_SLOT_TYPES = ['link'];
 
 // ─── Supabase ─────────────────────────────────────────────────────────────────
