@@ -163,6 +163,33 @@ function injectBrandColor(workDir, color) {
   }
 }
 
+// ─── Logo par défaut ─────────────────────────────────────────────────────────
+
+const LOGO_SLOTS = ['nav-logo', 'footer-logo', 'favicon', 'og-image', 'webclip', 'cta-logo'];
+const LOGO_DEFAULT_PATH = path.join(__dirname, 'images', 'logo-default.svg');
+
+function generateDefaultLogo(workDir, content) {
+  const brandColor = content['brand-color'];
+  if (!brandColor) return;
+  if (!fs.existsSync(LOGO_DEFAULT_PATH)) {
+    console.warn('⚠️  images/logo-default.svg manquant');
+    return;
+  }
+
+  const svg = fs.readFileSync(LOGO_DEFAULT_PATH, 'utf-8').replaceAll('#181818', brandColor);
+  const destPath = path.join(workDir, 'images', 'logo-client.svg');
+  fs.writeFileSync(destPath, svg, 'utf-8');
+  console.log(`🖼️  Logo par défaut: images/logo-client.svg (${brandColor})`);
+
+  // Injecter le chemin dans les slots logo non renseignés
+  const logoPath = 'images/logo-client.svg';
+  for (const slot of LOGO_SLOTS) {
+    if (!content[slot]) {
+      content[slot] = logoPath;
+    }
+  }
+}
+
 // ─── Injection HTML ───────────────────────────────────────────────────────────
 
 function injectAllSlots(html, content, slotTypes) {
@@ -269,10 +296,15 @@ async function main() {
     console.log(`🎨 Couleur primaire (dry-run): ${content['brand-color']}`);
   }
 
-  // 4. Types de slots
+  // 4. Logo par défaut (recolorisé)
+  if (!dryRun) {
+    generateDefaultLogo(workDir, content);
+  }
+
+  // 5. Types de slots
   const slotTypes = await fetchSlotTypes(supabase);
 
-  // 5. Injection HTML
+  // 6. Injection HTML
   let totalI = 0, totalS = 0;
   for (const file of HTML_FILES) {
     const fp = path.join(workDir, file);
@@ -286,7 +318,7 @@ async function main() {
 
   if (dryRun) { console.log('\n🔍 Dry-run terminé.\n'); return; }
 
-  // 6. Push
+  // 7. Push
   console.log('\n📤 Commit et push...');
   try {
     const msg = `[CYBER] Injection — ${slug} v${sc.version}`;
@@ -299,7 +331,7 @@ async function main() {
     else { console.error(`   ❌ Git: ${err.message}`); process.exit(1); }
   }
 
-  // 7. Supabase
+  // 8. Supabase
   const repoUrl = `https://github.com/${ORG}/client-${slug}`;
   const { error } = await supabase.from('site_content')
     .update({ status: 'deployed', github_repo: repoUrl, last_deployed_at: new Date().toISOString() })
