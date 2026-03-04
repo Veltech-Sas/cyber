@@ -171,20 +171,27 @@ const LOGO_SLOTS = ['nav-logo', 'footer-logo', 'cta-logo', 'service-1-logo', 'se
 const LOGO_DEFAULT_PATH = path.join(__dirname, 'images', 'logo-default.svg');
 
 function generateDefaultLogo(workDir, content) {
-  const brandColor = content['brand-color'];
-  if (!brandColor) return;
-  if (!fs.existsSync(LOGO_DEFAULT_PATH)) {
-    console.warn('⚠️  images/logo-default.svg manquant');
-    return;
+  const logoPath = 'images/logo-client.svg';
+  const destPath = path.join(workDir, logoPath);
+  const clientLogoInTemplate = path.join(__dirname, 'images', 'logo-client.svg');
+
+  if (fs.existsSync(clientLogoInTemplate)) {
+    // Logo client custom présent dans le template — déjà copié par copyTemplate
+    console.log(`🖼️  Logo client: ${logoPath} (custom)`);
+  } else {
+    // Pas de logo client — générer depuis logo-default + brand-color
+    const brandColor = content['brand-color'];
+    if (!brandColor) return;
+    if (!fs.existsSync(LOGO_DEFAULT_PATH)) {
+      console.warn('⚠️  images/logo-default.svg manquant');
+      return;
+    }
+    const svg = fs.readFileSync(LOGO_DEFAULT_PATH, 'utf-8').replaceAll('#181818', brandColor);
+    fs.writeFileSync(destPath, svg, 'utf-8');
+    console.log(`🖼️  Logo par défaut: ${logoPath} (${brandColor})`);
   }
 
-  const svg = fs.readFileSync(LOGO_DEFAULT_PATH, 'utf-8').replaceAll('#181818', brandColor);
-  const destPath = path.join(workDir, 'images', 'logo-client.svg');
-  fs.writeFileSync(destPath, svg, 'utf-8');
-  console.log(`🖼️  Logo par défaut: images/logo-client.svg (${brandColor})`);
-
   // Injecter le chemin dans les slots logo non renseignés
-  const logoPath = 'images/logo-client.svg';
   for (const slot of LOGO_SLOTS) {
     if (!content[slot]) {
       content[slot] = logoPath;
